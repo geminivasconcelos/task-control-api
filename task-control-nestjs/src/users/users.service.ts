@@ -3,6 +3,7 @@ import {
   HttpStatus,
   Injectable,
   Logger,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -43,8 +44,14 @@ export class UsersService {
     }
   }
 
-  getUsersById(id: number) {
-    return this.usersRepository.findOne({ where: { id } });
+  async getUsersById(id: number) {
+    const user = await this.usersRepository.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException(`Usuário com id ${id} não encontrado`);
+    }
+
+    return user;
   }
 
   getAllUserss() {

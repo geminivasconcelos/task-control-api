@@ -28,12 +28,19 @@ export class UsersService {
   ) {}
 
   async createUsers(user: CreateUsersDto) {
-    const hashedPassword = await hash(user.password, 10);
-    const newUser = this.usersRepository.create({
-      ...user,
-      password: hashedPassword,
-    });
-    return this.usersRepository.save(newUser);
+    try {
+      const hashedPassword = await hash(user.password, 10);
+      const newUser = this.usersRepository.create({
+        ...user,
+        password: hashedPassword,
+      });
+      return await this.usersRepository.save(newUser);
+    } catch (error) {
+      throw new HttpException(
+        'Erro ao criar usuário: ' + error.message,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   getUsersById(id: number) {

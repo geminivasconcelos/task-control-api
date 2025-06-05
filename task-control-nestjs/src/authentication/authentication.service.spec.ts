@@ -61,9 +61,9 @@ describe('AuthenticationService', () => {
 
       const dto: CreateUsersDto = {
         name: 'Test',
-        surname: 'User', // Opcional, pode remover se quiser
+        surname: 'User',
         email: 'test@example.com',
-        password: '123456', // Lembre-se: precisa ter no mínimo 6 caracteres
+        password: '123456',
       };
 
       const result = await service.register(dto);
@@ -110,6 +110,30 @@ describe('AuthenticationService', () => {
         ).rejects.toThrow(
           new HttpException('INVALID_TOKEN', HttpStatus.UNAUTHORIZED),
         );
+      });
+
+      it('should throw error if login fails', async () => {
+        (usersService.findByLogin as jest.Mock).mockRejectedValue(
+          'LOGIN_FAILED',
+        );
+
+        const dto: LoginUsersDto = {
+          email: 'test@example.com',
+          password: 'wrongpass',
+        };
+
+        await expect(service.login(dto)).rejects.toEqual('LOGIN_FAILED');
+      });
+
+      it('should return token and user data on successful login', async () => {
+        const dto: LoginUsersDto = {
+          email: 'test@example.com',
+          password: '123456',
+        };
+
+        const result = await service.login(dto);
+
+        expect(jwtService.sign).toHaveBeenCalledWith({ email: mockUser.email });
       });
     });
   });

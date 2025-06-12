@@ -1,3 +1,8 @@
+import { TaskModule } from './task/task.module';
+import { TaskController } from './task/task.controller';
+import {
+  TasksCategoryModule,
+} from './tasks-category/tasks-category.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -6,6 +11,7 @@ import { AppService } from './app.service';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/users.entity';
+import { TasksCategory } from './tasks-category/tasks-category.entity';
 
 @Module({
   imports: [
@@ -19,11 +25,13 @@ import { Users } from './users/users.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Users],
+      entities: [Users, TasksCategory],
       synchronize: true,
     }),
     UsersModule,
     AuthenticationModule,
+    TaskModule,
+    TasksCategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

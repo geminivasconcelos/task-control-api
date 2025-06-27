@@ -31,4 +31,7 @@ export class Tasks {
 
   @Column({ name: 'created_by', nullable: false })
   createdBy: number;
+
+  @Column({ name: 'category' })
+  category: number;
 }

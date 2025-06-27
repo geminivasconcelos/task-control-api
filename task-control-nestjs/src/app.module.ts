@@ -1,5 +1,4 @@
-import { TaskModule } from './task/task.module';
-import { TaskController } from './task/task.controller';
+
 import {
   TasksCategoryModule,
 } from './tasks-category/tasks-category.module';
@@ -12,6 +11,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/users.entity';
 import { TasksCategory } from './tasks-category/tasks-category.entity';
+import { Tasks } from './task/tasks.entity';
+import { TasksModule } from './task/tasks.module';
 
 @Module({
   imports: [
@@ -25,12 +26,12 @@ import { TasksCategory } from './tasks-category/tasks-category.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Users, TasksCategory],
+      entities: [Users, TasksCategory, Tasks],
       synchronize: true,
     }),
     UsersModule,
     AuthenticationModule,
-    TaskModule,
+    TasksModule,
     TasksCategoryModule,
   ],
   controllers: [AppController],

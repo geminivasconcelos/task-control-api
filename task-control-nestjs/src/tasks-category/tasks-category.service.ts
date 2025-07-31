@@ -3,6 +3,7 @@ import { CreateTasksCategoryDto } from './create-tasks-category.dto';
 import { TasksCategory } from './tasks-category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UpdateTasksCategoryDto } from './update-tasks-category.dto';
 
 @Injectable()
 export class TasksCategoryService {
@@ -39,7 +40,7 @@ export class TasksCategoryService {
     return this.usersRepository.findOne({ where: { id } });
   }
 
-  update(id: string, updateCategoryDto: CreateTasksCategoryDto) {
+  update(id: string, updateCategoryDto: UpdateTasksCategoryDto) {
     this.logger.log(`Updating task category with id: ${id}`);
 
     return this.usersRepository

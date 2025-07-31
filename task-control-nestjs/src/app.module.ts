@@ -1,7 +1,8 @@
+import { CoursesModule } from './courses/courses.module';
+import { CoursesController } from './courses/courses.controller';
+import { CoursesService } from './courses/courses.service';
 
-import {
-  TasksCategoryModule,
-} from './tasks-category/tasks-category.module';
+import { TasksCategoryModule } from './tasks-category/tasks-category.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -16,6 +17,7 @@ import { TasksModule } from './task/tasks.module';
 
 @Module({
   imports: [
+    CoursesModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

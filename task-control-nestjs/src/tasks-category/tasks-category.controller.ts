@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { TasksCategoryService } from './tasks-category.service';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateTasksCategoryDto } from './create-tasks-category.dto';
+import { UpdateTasksCategoryDto } from './update-tasks-category.dto';
 
 @Controller('tasks-category')
 export class TasksCategoryController {
@@ -17,7 +19,7 @@ export class TasksCategoryController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  create(@Body() createCategoryDto: any) {
+  create(@Body() createCategoryDto: CreateTasksCategoryDto) {
     return this.tasksCategoryService.create(createCategoryDto);
   }
 
@@ -35,7 +37,10 @@ export class TasksCategoryController {
 
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: any) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateTasksCategoryDto,
+  ) {
     return this.tasksCategoryService.update(id, updateCategoryDto);
   }
 

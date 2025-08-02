@@ -4,6 +4,7 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  IsArray,
 } from 'class-validator';
 
 export class CreateSubjectDto {
@@ -26,4 +27,28 @@ export class CreateSubjectDto {
   @IsNotEmpty()
   @IsInt()
   courseId: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  semester: number;
+
+  @IsOptional()
+  @IsArray()
+  prerequisites?: number[];
+
+  @IsOptional()
+  @IsString()
+  createdIn?: string;
+
+  @IsOptional()
+  @IsString()
+  updatedIn?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isActive?: boolean;
+
+  @IsNotEmpty()
+  @IsString()
+  code: string;
 }

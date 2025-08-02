@@ -1,3 +1,4 @@
+import { Subjects } from 'src/subjects/subjects.entity';
 import { UserCourses } from 'src/user-courses/user-courses.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
@@ -44,4 +45,7 @@ export class Courses {
 
   @OneToMany(() => UserCourses, (userCourse) => userCourse.course)
   userCourses: UserCourses[];
+
+  @OneToMany(() => Subjects, (subject) => subject.course)
+  subjects: Subjects[];
 }

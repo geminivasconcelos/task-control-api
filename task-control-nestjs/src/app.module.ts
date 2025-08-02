@@ -60,7 +60,7 @@ import { UserSubjects } from './user-subjects/user-subjects.entity';
     UserCoursesModule,
     CoursesModule,
   ],
-  controllers: [UserSubjectsController, UserCoursesController, AppController],
-  providers: [SubjectsService, UserCoursesService, AppService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

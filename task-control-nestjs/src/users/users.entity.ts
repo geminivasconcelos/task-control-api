@@ -1,4 +1,5 @@
-import { Column, Entity } from 'typeorm';
+import { UserCourses } from 'src/user-courses/user-courses.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
 export class Users {
@@ -22,4 +23,7 @@ export class Users {
 
   @Column({ name: 'created_in', default: () => 'CURRENT_TIMESTAMP' })
   createdIn: string;
+
+  @OneToMany(() => UserCourses, (userCourse) => userCourse.user)
+  userCourses: UserCourses[];
 }

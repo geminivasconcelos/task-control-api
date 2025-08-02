@@ -12,30 +12,31 @@ import { TasksCategoryService } from './tasks-category.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateTasksCategoryDto } from './create-tasks-category.dto';
 import { UpdateTasksCategoryDto } from './update-tasks-category.dto';
+import { JwtAuthGuard } from 'src/authentication/jwt-auth.guard';
 
 @Controller('tasks-category')
 export class TasksCategoryController {
   constructor(private readonly tasksCategoryService: TasksCategoryService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+ @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createCategoryDto: CreateTasksCategoryDto) {
     return this.tasksCategoryService.create(createCategoryDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+ @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.tasksCategoryService.findAll();
   }
 
-  @UseGuards(AuthGuard('jwt'))
+ @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.tasksCategoryService.findOne(id);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+ @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -44,7 +45,7 @@ export class TasksCategoryController {
     return this.tasksCategoryService.update(id, updateCategoryDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+ @UseGuards(JwtAuthGuard)
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.tasksCategoryService.delete(id);

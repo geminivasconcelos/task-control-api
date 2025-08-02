@@ -1,3 +1,7 @@
+import { UserSubjectsModule } from './user-subjects/user-subjects.module';
+import { UserSubjectsController } from './user-subjects/user-subjects.controller';
+import { SubjectsModule } from './subjects/subjects.module';
+import { SubjectsService } from './subjects/subjects.service';
 import { UserCoursesModule } from './user-courses/user-courses.module';
 import { UserCoursesService } from './user-courses/user-courses.service';
 import { UserCoursesController } from './user-courses/user-courses.controller';
@@ -17,11 +21,13 @@ import { Users } from './users/users.entity';
 import { TasksCategory } from './tasks-category/tasks-category.entity';
 import { Tasks } from './task/tasks.entity';
 import { TasksModule } from './task/tasks.module';
+import { Courses } from './courses/courses.entity';
+import { UserCourses } from './user-courses/user-courses.entity';
 
 @Module({
   imports: [
-    UserCoursesModule,
-    CoursesModule,
+        UserSubjectsModule, 
+        SubjectsModule, 
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -32,15 +38,21 @@ import { TasksModule } from './task/tasks.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Users, TasksCategory, Tasks],
+      entities: [Users, TasksCategory, Tasks, Courses, UserCourses],
+
       synchronize: true,
     }),
+
     UsersModule,
     AuthenticationModule,
     TasksModule,
     TasksCategoryModule,
+    UserCoursesModule,
+    CoursesModule,
   ],
-  controllers: [UserCoursesController, AppController],
-  providers: [UserCoursesService, AppService],
+  controllers: [
+        UserSubjectsController, UserCoursesController, AppController],
+  providers: [
+        SubjectsService, UserCoursesService, AppService],
 })
 export class AppModule {}

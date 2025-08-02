@@ -1,3 +1,6 @@
+import { UserCoursesModule } from './user-courses/user-courses.module';
+import { UserCoursesService } from './user-courses/user-courses.service';
+import { UserCoursesController } from './user-courses/user-courses.controller';
 import { CoursesModule } from './courses/courses.module';
 import { CoursesController } from './courses/courses.controller';
 import { CoursesService } from './courses/courses.service';
@@ -17,6 +20,7 @@ import { TasksModule } from './task/tasks.module';
 
 @Module({
   imports: [
+    UserCoursesModule,
     CoursesModule,
     ConfigModule.forRoot({
       isGlobal: true,
@@ -36,7 +40,7 @@ import { TasksModule } from './task/tasks.module';
     TasksModule,
     TasksCategoryModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [UserCoursesController, AppController],
+  providers: [UserCoursesService, AppService],
 })
 export class AppModule {}

@@ -18,7 +18,20 @@ export class SubjectsService {
   async create(subject: CreateSubjectDto) {
     this.logger.log('Creating a new subject');
 
-    const newSubject = this.subjectsRepository.create(subject);
+    const createData: any = { ...subject };
+
+    if (subject.courseId) {
+      createData.course = { id: subject.courseId };
+    }
+
+    if (subject.prerequisites && Array.isArray(subject.prerequisites)) {
+      createData.prerequisites = subject.prerequisites.map((prereqId) => ({
+        id: prereqId,
+      }));
+    }
+
+    const newSubject = this.subjectsRepository.create(createData);
+
     return this.subjectsRepository
       .save(newSubject)
       .then((subject) => ({
@@ -34,8 +47,19 @@ export class SubjectsService {
   async update(id: number, updateSubjectDto: UpdateSubjectDto) {
     this.logger.log(`Updating subject with id: ${id}`);
 
+    // Map prerequisites from string[] to { id: string }[] if present
+    const updateData: any = { ...updateSubjectDto };
+    if (
+      updateSubjectDto.prerequisites &&
+      Array.isArray(updateSubjectDto.prerequisites)
+    ) {
+      updateData.prerequisites = updateSubjectDto.prerequisites.map(
+        (prereqId) => ({ id: prereqId }),
+      );
+    }
+
     return this.subjectsRepository
-      .update(id, updateSubjectDto)
+      .update(id, updateData)
       .then(() => ({
         message: 'Subject updated successfully',
       }))

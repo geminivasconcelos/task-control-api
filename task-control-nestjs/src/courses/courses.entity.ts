@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { UserCourses } from 'src/user-courses/user-courses.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class Courses {
@@ -40,4 +41,7 @@ export class Courses {
 
   @Column({ name: 'updated_in', default: () => 'CURRENT_TIMESTAMP' })
   updatedIn: string;
+
+  @OneToMany(() => UserCourses, (userCourse) => userCourse.course)
+  userCourses: UserCourses[];
 }

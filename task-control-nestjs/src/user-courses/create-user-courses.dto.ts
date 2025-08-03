@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString, IsDate, IsInt } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsDate,
+  IsInt,
+  IsBoolean,
+} from 'class-validator';
 
 export class CreateUserCoursesDto {
   @IsNotEmpty()
@@ -17,9 +25,8 @@ export class CreateUserCoursesDto {
   @IsString()
   status: string;
 
-  @IsOptional()
-  @IsDate()
-  startedAt?: Date;
+  @IsBoolean()
+  completed?: boolean;
 
   @IsOptional()
   @IsDate()

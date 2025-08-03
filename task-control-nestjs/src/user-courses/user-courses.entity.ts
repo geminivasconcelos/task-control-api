@@ -37,8 +37,11 @@ export class UserCourses {
   })
   startedAt: Date;
 
-  @Column({ name: 'completed_at', type: 'timestamp' })
+  @Column({ name: 'completed_at', nullable: true })
   completedAt: Date;
+
+  @Column({ name: 'completed', type: 'boolean', default: false })
+  completed: boolean;
 
   @Column({ name: 'certificate_url', type: 'varchar', nullable: true })
   certificateUrl: string;
@@ -50,9 +53,11 @@ export class UserCourses {
   updatedAt: Date;
 
   @ManyToOne(() => Users, (user) => user.userCourses)
+  @JoinColumn({ name: 'user_id' }) // Define o nome da coluna FK
   user: Users;
 
   @ManyToOne(() => Courses, (course) => course.userCourses)
+  @JoinColumn({ name: 'course_id' }) // Define o nome da coluna FK
   course: Courses;
 
   @OneToMany(() => UserSubjects, (userSubject) => userSubject.userCourse)

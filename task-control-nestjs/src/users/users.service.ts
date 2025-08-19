@@ -58,14 +58,38 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  updateUsers(id: string, user: CreateUsersDto) {
-    return user;
+  async updateUsers(
+    id: string,
+    user: CreateUsersDto,
+  ): Promise<{ message: string }> {
+    try {
+      const { password, ...updateData } = user;
+
+      const result = await this.usersRepository.update(id, updateData);
+
+      if (!result.affected) {
+        throw new NotFoundException(`Usuário com ID "${id}" não encontrado`);
+      }
+
+      return { message: 'Usuário atualizado com sucesso' };
+    } catch (error) {
+      throw new HttpException(
+        `Erro ao atualizar usuário: ${error.message || error}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
-  deleteUsers(id: string) {
-    return { message: `Users with ID ${id} deleted` };
-  }
+  async deleteUsers(id: string): Promise<{ message: string }> {
+    const result = await this.usersRepository.delete(id);
 
+    if (!result.affected) {
+      throw new NotFoundException(`Usuário com ID "${id}" não encontrado`);
+    }
+
+    return { message: 'Usuário deletado com sucesso' };
+  }
+  
   async findByLogin({ email, password }: LoginUsersDto): Promise<FormatLogin> {
     const user = await this.usersRepository.findOne({ where: { email } });
     if (!user) {

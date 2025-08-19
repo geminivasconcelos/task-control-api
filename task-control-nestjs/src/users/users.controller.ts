@@ -3,6 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Patch,
   Put,
   Request,
   UseGuards,
@@ -13,6 +14,7 @@ import { ApiQuery, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/authentication/jwt-auth.guard';
 import { UpdatePasswordDto } from './update-password.dto';
+import { UpdateUsersDto } from './update-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -40,8 +42,23 @@ export class UserController {
       message: 'password_update_success',
     };
   }
-}
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Patch('update')
+  async updateUser(@Request() req, @Body() updateUserDto: UpdateUsersDto) {
+    return await this.userService.updateUsers(req.user.id, updateUserDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Patch('update')
+  async deleteUser(@Request() req) {
+    return await this.userService.deleteUser(req.user.id);
+  }
+}
 export class RenderUser {
   constructor(user: any) {
     this.id = user.id;

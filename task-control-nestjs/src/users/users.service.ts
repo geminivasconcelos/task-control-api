@@ -14,6 +14,7 @@ import { UpdatePasswordDto } from './update-password.dto';
 import { Users } from './users.entity';
 import { CreateUsersDto } from './create-users.dto';
 import { LoginUsersDto } from './login-user.dto';
+import { UpdateUsersDto } from './update-user.dto';
 
 interface FormatLogin extends Partial<Users> {
   email: string;
@@ -60,10 +61,10 @@ export class UsersService {
 
   async updateUsers(
     id: string,
-    user: CreateUsersDto,
+    user: UpdateUsersDto,
   ): Promise<{ message: string }> {
     try {
-      const { password, ...updateData } = user;
+      const { ...updateData } = user;
 
       const result = await this.usersRepository.update(id, updateData);
 
@@ -80,7 +81,7 @@ export class UsersService {
     }
   }
 
-  async deleteUsers(id: string): Promise<{ message: string }> {
+  async deleteUser(id: string): Promise<{ message: string }> {
     const result = await this.usersRepository.delete(id);
 
     if (!result.affected) {
@@ -89,7 +90,7 @@ export class UsersService {
 
     return { message: 'Usuário deletado com sucesso' };
   }
-  
+
   async findByLogin({ email, password }: LoginUsersDto): Promise<FormatLogin> {
     const user = await this.usersRepository.findOne({ where: { email } });
     if (!user) {
